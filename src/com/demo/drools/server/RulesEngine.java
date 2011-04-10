@@ -10,6 +10,7 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
 import org.drools.rule.Package;
 
+//this class is not expected to change much in future
 public class RulesEngine {
 
 	private RuleBase rules;
