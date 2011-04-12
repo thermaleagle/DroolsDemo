@@ -53,47 +53,54 @@ public class DroolsDemo implements EntryPoint {
 	public void onModuleLoad() {
 		FlexTable flexTable = new FlexTable();
 		FlexCellFormatter flexCellFormatter = flexTable.getFlexCellFormatter();
-		final Label lblCreateMachine = new Label("Select New Machine Type");
-		final Label lblAssignMachineFunc = new Label("Assign Machine Function");
-		final Button btnRndMachineCreate = new Button("Randomly Select");
-		final Button btnRndAssignFunc = new Button("Randomly Select");
-		final Button btnSeeTestsAssigned = new Button("See Tests Assigned");
+		final Label lblUserType = new Label("Select User Type");
+		final Label lblSeeWhatYouCanInput = new Label("See What You Can Input");
+		final Button btnRndSelectUserType = new Button("Randomly Select");
+//		final Button btnRndAssignFunc = new Button("Randomly Select");
+//		final Button btnSeeTestsAssigned = new Button("See Tests Assigned");
 
 		// final TextBox nameField = new TextBox();
 		final VerticalPanel verticalPanel1 = new VerticalPanel();
 		final VerticalPanel verticalPanel2 = new VerticalPanel();
 
-		final RadioButton rbMachineType1 = new RadioButton("machineType",
-				"Type 1");
-		final RadioButton rbMachineType2 = new RadioButton("machineType",
-				"Type 2");
-		final CheckBox cbMachineFuncDDNS = new CheckBox("DDNS Server");
-		final CheckBox cbMachineFuncDNS = new CheckBox("DNS Server");
-		final CheckBox cbMachineFuncGateway = new CheckBox("Gateway");
-		final CheckBox cbMachineFuncRouter = new CheckBox("Router");
+		final RadioButton rbUserType1 = new RadioButton("userType", "Type 1");
+		rbUserType1.setTitle("Basic User");
+		
+		final RadioButton rbUserType2 = new RadioButton("userType", "Type 2");
+		rbUserType2.setTitle("Power User");
+		
+		final RadioButton rbUserType3 = new RadioButton("userType", "Type 3");
+		rbUserType3.setTitle("Admin User");
 
-		final Label lblSelectedTests = new Label("None");
-		final Label lblDueDate = new Label("None");
+		// final CheckBox cbMachineFuncDDNS = new CheckBox("DDNS Server");
+		// final CheckBox cbMachineFuncDNS = new CheckBox("DNS Server");
+		// final CheckBox cbMachineFuncGateway = new CheckBox("Gateway");
+		// final CheckBox cbMachineFuncRouter = new CheckBox("Router");
 
-		verticalPanel1.add(rbMachineType1);
-		verticalPanel1.add(rbMachineType2);
-		verticalPanel2.add(cbMachineFuncDDNS);
-		verticalPanel2.add(cbMachineFuncDNS);
-		verticalPanel2.add(cbMachineFuncGateway);
-		verticalPanel2.add(cbMachineFuncRouter);
+		final Label lblMessage = new Label();
+//		final Label lblDueDate = new Label("None");
+
+		verticalPanel1.add(rbUserType1);
+		verticalPanel1.add(rbUserType2);
+		verticalPanel1.add(rbUserType3);
+
+		// verticalPanel2.add(cbMachineFuncDDNS);
+		// verticalPanel2.add(cbMachineFuncDNS);
+		// verticalPanel2.add(cbMachineFuncGateway);
+		// verticalPanel2.add(cbMachineFuncRouter);
 
 		flexCellFormatter.setColSpan(2, 0, 3);
 
-		flexTable.setWidget(0, 0, lblCreateMachine);
+		flexTable.setWidget(0, 0, lblUserType);
 		flexTable.setWidget(0, 1, verticalPanel1);
-		flexTable.setWidget(0, 2, btnRndMachineCreate);
-		flexTable.setWidget(1, 0, lblAssignMachineFunc);
+		flexTable.setWidget(0, 2, btnRndSelectUserType);
+		flexTable.setWidget(1, 0, lblSeeWhatYouCanInput);
 		flexTable.setWidget(1, 1, verticalPanel2);
 		flexTable.setWidget(1, 2, btnRndAssignFunc);
 		flexTable.setWidget(2, 0, btnSeeTestsAssigned);
 
 		btnSeeTestsAssigned.setSize("100%", "100%");
-		btnRndMachineCreate.setSize("100%", "100%");
+		btnRndSelectUserType.setSize("100%", "100%");
 		btnRndAssignFunc.setSize("100%", "100%");
 
 		flexTable.setBorderWidth(1);
@@ -104,15 +111,15 @@ public class DroolsDemo implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String serialNum = String.valueOf((int)(Math.random()*10));
+				String serialNum = String.valueOf((int) (Math.random() * 10));
 
 				String machineType = null;
 				List machineFuncs = new ArrayList();
 
-				if (rbMachineType1.getValue()) {
+				if (rbUserType1.getValue()) {
 					machineType = "Type 1";
 				}
-				if (rbMachineType2.getValue()) {
+				if (rbUserType2.getValue()) {
 					machineType = "Type 2";
 				}
 
@@ -142,7 +149,8 @@ public class DroolsDemo implements EntryPoint {
 							@Override
 							public void onSuccess(Object result) {
 								HashMap outputParams = (HashMap) result;
-								Collection<String> testsAssigned = (Collection<String>) outputParams.get("testsAssigned");
+								Collection<String> testsAssigned = (Collection<String>) outputParams
+										.get("testsAssigned");
 								String dueDate = (String) outputParams
 										.get("dueDate");
 								for (Iterator iterator = testsAssigned
@@ -167,7 +175,7 @@ public class DroolsDemo implements EntryPoint {
 			}
 		});
 
-		btnRndMachineCreate.addClickHandler(new ClickHandler() {
+		btnRndSelectUserType.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -182,10 +190,10 @@ public class DroolsDemo implements EntryPoint {
 
 				switch (selectedType) {
 				case 1:
-					rbMachineType1.setValue(true);
+					rbUserType1.setValue(true);
 					break;
 				case 2:
-					rbMachineType2.setValue(true);
+					rbUserType2.setValue(true);
 					break;
 				default:
 					try {

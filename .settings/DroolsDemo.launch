@@ -26,7 +26,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.HostedMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-codeServerPort 9997 -style OBFUSCATED -startupUrl DroolsDemo.html -logLevel INFO -port 8888 -war /home/roshan/workspace/DroolsDemo/war com.demo.drools.DroolsDemo com.demo.drools.DroolsDemo"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-style OBFUSCATED -startupUrl DroolsDemo.html -logLevel INFO -port 8888 -war /home/roshan/workspace/DroolsDemo/war com.demo.drools.DroolsDemo com.demo.drools.DroolsDemo"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="DroolsDemo"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m"/>
 </launchConfiguration>
