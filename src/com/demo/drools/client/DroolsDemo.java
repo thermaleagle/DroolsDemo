@@ -1,338 +1,234 @@
 package com.demo.drools.client;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class DroolsDemo implements EntryPoint {
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
+    /**
+     * The message displayed to the user when the server cannot be reached or
+     * returns an error.
+     */
+    private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network "
+            + "connection and try again.";
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
-	private final DroolsExpertServiceAsync droolsExpertServiceAsync = GWT
-			.create(DroolsExpertService.class);
+    /**
+     * Create a remote service proxy to talk to the server-side Greeting
+     * service.
+     */
+    private final DroolsExpertServiceAsync droolsExpertServiceAsync = GWT.create(DroolsExpertService.class);
 
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
-		FlexTable flexTable = new FlexTable();
-		FlexCellFormatter flexCellFormatter = flexTable.getFlexCellFormatter();
-		final Label lblUserType = new Label("Select User Type");
-		final Label lblSeeWhatYouCanInput = new Label("See What You Can Input");
-		final Button btnRndSelectUserType = new Button("Randomly Select");
-//		final Button btnRndAssignFunc = new Button("Randomly Select");
-//		final Button btnSeeTestsAssigned = new Button("See Tests Assigned");
+    final Label lblMessage = new Label("<< Result appears here >>");
+    final VerticalPanel verticalPanel2 = new VerticalPanel();
 
-		// final TextBox nameField = new TextBox();
-		final VerticalPanel verticalPanel1 = new VerticalPanel();
-		final VerticalPanel verticalPanel2 = new VerticalPanel();
+    /**
+     * This is the entry point method.
+     */
+    public void onModuleLoad() {
+        FlexTable flexTable = new FlexTable();
+        FlexCellFormatter flexCellFormatter = flexTable.getFlexCellFormatter();
 
-		final RadioButton rbUserType1 = new RadioButton("userType", "Type 1");
-		rbUserType1.setTitle("Basic User");
-		
-		final RadioButton rbUserType2 = new RadioButton("userType", "Type 2");
-		rbUserType2.setTitle("Power User");
-		
-		final RadioButton rbUserType3 = new RadioButton("userType", "Type 3");
-		rbUserType3.setTitle("Admin User");
+        final Label lblUserType = new Label("Select User Type");
 
-		// final CheckBox cbMachineFuncDDNS = new CheckBox("DDNS Server");
-		// final CheckBox cbMachineFuncDNS = new CheckBox("DNS Server");
-		// final CheckBox cbMachineFuncGateway = new CheckBox("Gateway");
-		// final CheckBox cbMachineFuncRouter = new CheckBox("Router");
+        final RadioButton rbUserType1 = new RadioButton("userType", "Type 1");
+        rbUserType1.setTitle("Admin User");
 
-		final Label lblMessage = new Label();
-//		final Label lblDueDate = new Label("None");
+        final RadioButton rbUserType2 = new RadioButton("userType", "Type 2");
+        rbUserType2.setTitle("Power User");
 
-		verticalPanel1.add(rbUserType1);
-		verticalPanel1.add(rbUserType2);
-		verticalPanel1.add(rbUserType3);
+        final RadioButton rbUserType3 = new RadioButton("userType", "Type 3");
+        rbUserType3.setTitle("Basic User");
 
-		// verticalPanel2.add(cbMachineFuncDDNS);
-		// verticalPanel2.add(cbMachineFuncDNS);
-		// verticalPanel2.add(cbMachineFuncGateway);
-		// verticalPanel2.add(cbMachineFuncRouter);
+        final Button btnRndSelectUserType = new Button("Randomly Select");
 
-		flexCellFormatter.setColSpan(2, 0, 3);
+        final Label lblSeeWhatYouCanInput = new Label("See how many questions you need to answer");
 
-		flexTable.setWidget(0, 0, lblUserType);
-		flexTable.setWidget(0, 1, verticalPanel1);
-		flexTable.setWidget(0, 2, btnRndSelectUserType);
-		flexTable.setWidget(1, 0, lblSeeWhatYouCanInput);
-		flexTable.setWidget(1, 1, verticalPanel2);
-		flexTable.setWidget(1, 2, btnRndAssignFunc);
-		flexTable.setWidget(2, 0, btnSeeTestsAssigned);
+        final VerticalPanel verticalPanel1 = new VerticalPanel();
 
-		btnSeeTestsAssigned.setSize("100%", "100%");
-		btnRndSelectUserType.setSize("100%", "100%");
-		btnRndAssignFunc.setSize("100%", "100%");
+        verticalPanel1.add(rbUserType1);
+        verticalPanel1.add(rbUserType2);
+        verticalPanel1.add(rbUserType3);
 
-		flexTable.setBorderWidth(1);
+        flexCellFormatter.setColSpan(0, 0, 3);
+        flexTable.setWidget(0, 0, lblSeeWhatYouCanInput);
 
-		RootPanel.get().add(flexTable);
+        flexTable.setWidget(1, 0, lblUserType);
+        flexTable.setWidget(1, 1, verticalPanel1);
+        flexTable.setWidget(1, 2, btnRndSelectUserType);
 
-		btnSeeTestsAssigned.addClickHandler(new ClickHandler() {
+        flexCellFormatter.setColSpan(2, 0, 3);
+        flexTable.setWidget(2, 0, lblMessage);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				String serialNum = String.valueOf((int) (Math.random() * 10));
+        flexCellFormatter.setColSpan(3, 0, 3);
+        flexTable.setWidget(3, 0, verticalPanel2);
 
-				String machineType = null;
-				List machineFuncs = new ArrayList();
+        btnRndSelectUserType.setSize("100%", "100%");
 
-				if (rbUserType1.getValue()) {
-					machineType = "Type 1";
-				}
-				if (rbUserType2.getValue()) {
-					machineType = "Type 2";
-				}
+        // flexTable.setBorderWidth(1);
+        flexTable.setStyleName("pattern-style-b");
+        flexTable.setSize("600px", "200px");
 
-				if (cbMachineFuncDDNS.getValue()) {
-					machineFuncs.add("DDNS");
-				}
-				if (cbMachineFuncDNS.getValue()) {
-					machineFuncs.add("DNS");
-				}
-				if (cbMachineFuncGateway.getValue()) {
-					machineFuncs.add("Gateway");
-				}
-				if (cbMachineFuncRouter.getValue()) {
-					machineFuncs.add("Router");
-				}
+        RootPanel.get("gwtCode").add(flexTable);
 
-				HashMap inputParams = new HashMap();
-				HashMap outputParams = new HashMap();
+        rbUserType1.addClickHandler(new ClickHandler() {
 
-				inputParams.put("thisMachineSerial", serialNum);
-				inputParams.put("thisMachineType", machineType);
-				inputParams.put("thisMachineFuncs", machineFuncs);
+            @Override
+            public void onClick(ClickEvent event) {
+                if (rbUserType1.getValue()) {
+                    triggerServerAction(1);
+                }
+            }
+        });
 
-				droolsExpertServiceAsync.getTestsAssignedData(inputParams,
-						new AsyncCallback() {
+        rbUserType2.addClickHandler(new ClickHandler() {
 
-							@Override
-							public void onSuccess(Object result) {
-								HashMap outputParams = (HashMap) result;
-								Collection<String> testsAssigned = (Collection<String>) outputParams
-										.get("testsAssigned");
-								String dueDate = (String) outputParams
-										.get("dueDate");
-								for (Iterator iterator = testsAssigned
-										.iterator(); iterator.hasNext();) {
-									String thisTestName = (String) iterator
-											.next();
-									RootPanel.get("testsAssignedContainer")
-											.add(new Label(thisTestName));
-								}
-								RootPanel.get("testsDueDateContainer").add(
-										new Label(dueDate));
-							}
+            @Override
+            public void onClick(ClickEvent event) {
+                if (rbUserType2.getValue()) {
+                    triggerServerAction(2);
+                }
+            }
+        });
 
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								Window.alert("Some failure on backend: "
-										+ caught.fillInStackTrace());
-							}
+        rbUserType3.addClickHandler(new ClickHandler() {
 
-						});
-			}
-		});
+            @Override
+            public void onClick(ClickEvent event) {
+                if (rbUserType3.getValue()) {
+                    triggerServerAction(3);
+                }
+            }
+        });
 
-		btnRndSelectUserType.addClickHandler(new ClickHandler() {
+        btnRndSelectUserType.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				int selectedType = ((int) (Math.random() + 0.5)) + 1; // To
-				// select
-				// a
-				// random
-				// integer
-				// from
-				// 1 and
-				// 2.
+            @Override
+            public void onClick(ClickEvent event) {
+                // the below is used to select a random integer between 1 and 3
+                // - both inclusive
+                // logic: Min + (int)(Math.random() * ((Max - Min) + 1))
+                int selectedType = 1 + (int) (Math.random() * ((3 - 1) + 1));
 
-				switch (selectedType) {
-				case 1:
-					rbUserType1.setValue(true);
-					break;
-				case 2:
-					rbUserType2.setValue(true);
-					break;
-				default:
-					try {
-						throw new Exception("Unexpected random value selected");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
+                switch (selectedType) {
+                case 1:
+                    rbUserType1.setValue(true);
+                    triggerServerAction(1);
+                    break;
+                case 2:
+                    rbUserType2.setValue(true);
+                    triggerServerAction(2);
+                    break;
+                case 3:
+                    rbUserType3.setValue(true);
+                    triggerServerAction(3);
+                    break;
 
-		btnRndAssignFunc.addClickHandler(new ClickHandler() {
+                default:
+                    try {
+                        throw new Exception("Unexpected random value selected");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
-			@Override
-			public void onClick(ClickEvent event) {
-				int selectedFunctions[] = new int[4];
-				selectedFunctions[0] = (int) (Math.random() + 0.5);
-				selectedFunctions[1] = (int) (Math.random() + 0.5);
-				selectedFunctions[2] = (int) (Math.random() + 0.5);
-				selectedFunctions[3] = (int) (Math.random() + 0.5);
+    }
 
-				if (selectedFunctions[0] == 1)
-					cbMachineFuncDDNS.setValue(true);
-				else
-					cbMachineFuncDDNS.setValue(false);
+    private HorizontalPanel getNewWidgetSetForOneQuestion() {
+        HorizontalPanel thisHPanel = new HorizontalPanel();
 
-				if (selectedFunctions[1] == 1)
-					cbMachineFuncDNS.setValue(true);
-				else
-					cbMachineFuncDNS.setValue(false);
+        thisHPanel.add(new Label("This is a question"));
 
-				if (selectedFunctions[2] == 1)
-					cbMachineFuncGateway.setValue(true);
-				else
-					cbMachineFuncGateway.setValue(false);
+        Widget thisInputWidget = null;
+        // Generate a binary integer. If 0 then create TextBox, if 1 then create
+        // ListBox
+        int rndTxtBoxOrListBox = (int) (Math.random() * ((1 - 0) + 1));
 
-				if (selectedFunctions[3] == 1)
-					cbMachineFuncRouter.setValue(true);
-				else
-					cbMachineFuncRouter.setValue(false);
-			}
-		});
-		// nameField.setText("GWT User");
+        try {
+            switch (rndTxtBoxOrListBox) {
+            case 0:
+                thisInputWidget = new TextBox();
+                break;
+            case 1:
+                thisInputWidget = new ListBox();
 
-		// We can add style names to widgets
-		// sendButton.addStyleName("sendButton");
+                // Generate a random number of ListBox options between 2 and 10
+                int rndNumOfOptions = 2 + (int) (Math.random() * ((10 - 2) + 1));
+                rndNumOfOptions = rndNumOfOptions > 10 ? 10 : rndNumOfOptions;
+                for (int i = 0; i < rndNumOfOptions; i++) {
+                    ((ListBox) thisInputWidget).insertItem(new String("option " + i), i);
+                }
+                // this will help select some random values as default options,
+                // instead of the item at index 0 being selected by default
+                ((ListBox) thisInputWidget).setSelectedIndex(rndNumOfOptions / 2);
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		// RootPanel.get("nameFieldContainer").add(nameField);
-		// RootPanel.get("sendButtonContainer").add(sendButton);
+                break;
+            default:
+                throw new Exception("Unexpected random value generated");
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		// Focus the cursor on the name field when the app loads
-		// nameField.setFocus(true);
-		// nameField.selectAll();
+        thisHPanel.add(thisInputWidget);
 
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
+        return thisHPanel;
+    }
 
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				// sendButton.setEnabled(true);
-				// sendButton.setFocus(true);
-			}
-		});
+    private void triggerServerAction(int userCode) {
+        lblMessage.setText("Processing...");
+        verticalPanel2.clear();
+        verticalPanel2.add(new Image("/images/ajax-loader.gif"));
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				// sendNameToServer();
-			}
+        HashMap inputParams = new HashMap();
+        HashMap outputParams;
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					// sendNameToServer();
-				}
-			}
+        inputParams.put("userCode", userCode);
 
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
-			// private void sendNameToServer() {
-			// // sendButton.setEnabled(false);
-			// String textToServer = "";// nameField.getText();
-			// textToServerLabel.setText(textToServer);
-			// serverResponseLabel.setText("");
-			// droolsExpertServiceAsync.getTestsAssignedData(textToServer,
-			// new AsyncCallback<String>() {
-			// public void onFailure(Throwable caught) {
-			// // Show the RPC error message to the user
-			// dialogBox
-			// .setText("Remote Procedure Call - Failure");
-			// serverResponseLabel
-			// .addStyleName("serverResponseLabelError");
-			// serverResponseLabel.setHTML(SERVER_ERROR);
-			// dialogBox.center();
-			// closeButton.setFocus(true);
-			// }
-			//
-			// public void onSuccess(String result) {
-			// dialogBox.setText("Remote Procedure Call");
-			// serverResponseLabel
-			// .removeStyleName("serverResponseLabelError");
-			// serverResponseLabel.setHTML(result);
-			// dialogBox.center();
-			// closeButton.setFocus(true);
-			// }
-			// });
-			// }
-		}
+        droolsExpertServiceAsync.getTestsAssignedData(inputParams, new AsyncCallback() {
 
-		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		// sendButton.addClickHandler(handler);
-		// nameField.addKeyUpHandler(handler);
-	}
+            @Override
+            public void onSuccess(Object result) {
+                HashMap outputParams = (HashMap) result;
+                String userType = (String) outputParams.get("userType");
+                int countOfQuestions = (Integer) outputParams.get("countOfQuestions");
+
+                lblMessage.setText("You are identified as a " + userType + " user." + "\n" + "You need to answer " + countOfQuestions
+                        + " questions below:");
+
+                verticalPanel2.clear();
+                for (int i = 0; i < countOfQuestions; i++) {
+                    verticalPanel2.add(getNewWidgetSetForOneQuestion());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                lblMessage.setText("Some failure on backend: " + caught.fillInStackTrace());
+            }
+
+        });
+    }
+
 }
